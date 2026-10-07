@@ -1,0 +1,14 @@
+# Datos (pesados, y son de la cátedra) y resultados en CSV
+*.csv
+*.parquet
+*.gzip
+
+# Modelos guardados (pueden pesar mucho)
+*.sav
+*.pkl
+
+# Entorno de Python y archivos temporales
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
