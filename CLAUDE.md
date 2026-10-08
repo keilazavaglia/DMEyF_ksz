@@ -172,3 +172,37 @@ usar `nbclient` desde Python.
 2. Opcional: probar si el modelo final necesita más árboles al entrenar con 4 meses
    (validar train 202103-202104 → valid 202106 con best_iter ×1 vs ×1,5).
 3. **Sáb 10**: elegir el archivo único final. **Dom 11**: reenviarlo antes de las 23:59.
+
+## Resultados de la noche del 07 al 08/10 — DECIDIR CON KEILA qué se adopta
+Ensamble final `submits/modelo_final_noche.ipynb`: listo (10 trials × 10 semillas = 100 modelos, 4 h).
+Archivos `12_final_ens100_11500.csv` y `13_final_ens100_12000.csv` (todavía NO enviados). Coincide 98,4% con
+el ensamble de 8 (top 12.000). Trials: 34, 36, 27, 29, 37, 31, 20, 9, 28, 39.
+
+Pruebas (todas contra el trial 34 = 399,6 M, una modificación cada una; detalle en la celda "Conclusiones"
+de cada notebook y en `resultados_experimentos.csv`):
+| Notebook | Prueba | Resultado | Veredicto |
+|---|---|---|---|
+| z012_optuna_rango | hessian 1-200, hojas 16-512 | **434,7-438,2 M** (hessian ~100-120, 16-50 hojas, ~3000 árboles = tope) | **+35-38 M: candidato fuerte** |
+| z009_juntar_bajas | BAJA+1 + BAJA+2 | **421,8 M**, mejor N ~14.700; top 12.000 empata | **+22 M: candidato** (cambia el N) |
+| z010_arboles | 2 meses train, ×1/×1,5/×2 árboles | 405,8 / 400,5 / 396,7 | más árboles no suma |
+| z011_ajustar_drift | sin fechas / sueldo ×2/3 / depósitos / Visa suavizado | +1,6 / −0,6 / 0,0 / −2,2 | drift casi no afecta |
+| z013_variables_manuales | ~20 variables manuales | −2,7 M | descartado |
+| z014_tendencias | media 3 meses + cociente | +2,5 M (ruido), top 12.000 pierde | no claro |
+| z015_canaritos | sacar las que pierden con 50 canaritos | −24 M (quedaron 38 de 761 variables) | descartado (criterio muy agresivo) |
+| z016_undersampling | 100/50/20% CONTINUA | −3,5 / −7,3 M; 20% es 3,3× más rápido | aprendizaje para 2da competencia |
+
+Para decidir: (1) rehacer Optuna/ensamble con z012 (subir el tope de árboles, porque quedó en 3000);
+(2) probar z009 combinado con z012 (y con Optuna sobre ese target); (3) "sin fechas" es opcional (+1,6).
+Antes de combinar: probar la combinación con 5-10 semillas.
+
+## Ideas pendientes
+- 8: Optuna con 2 meses de train (depende de z010). 10: segundo corte temporal 202103 → 202105.
+  12: hojas de Random Forest (1.5 del profesor).
+- **Clusters como ayuda al modelo (idea de Keila, 08/10)**: definir grupos de clientes con sentido de negocio
+  y usarlos para "darle un toque" al patrón general (subir o bajar la probabilidad según el grupo).
+  - Cuidado: los clusters de la clase 5 (`clusters/clusters_asignacion.csv`) son **solo de BAJA+2** → usarlos
+    como variable es fuga del target. Hay que agrupar a **todos** los clientes, **sin mirar el target**.
+  - Opciones: (a) grupos por reglas de negocio (cobra sueldo o no, VIP, cantidad de productos, edad/antigüedad);
+    (b) KMeans sobre variables clave de cada mes (ver si sklearn corre; Windows lo bloqueaba);
+    (c) usar el grupo como variable, o ajustar el corte/probabilidad por grupo, o un modelo por grupo.
+  - Probar como siempre: una sola modificación, 5-10 semillas, contra la referencia.
