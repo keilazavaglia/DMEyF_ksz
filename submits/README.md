@@ -13,6 +13,8 @@ Los CSV y las probabilidades (`probs_*/`, `*.parquet`) no se suben a GitHub.
 | 3-11 | N_OptunaEns_corte | `03-11_optuna_ens8` | `N_optuna_ens8_corte.csv` | receta del profesor, 8 trials z005 × 1 semilla | máx 99,11 (11.500 y 12.000) |
 | 12 | 12_Ens100z005_12000 | `12_ens100_z005` | `12_ens100_12000.csv` | 10 trials z005 × 10 semillas = 100 modelos | 94,82 |
 | 13 | 13_Ens15z012_12000 | `13_ens15_z012` | `13_ens15z012_12000.csv` | 5 trials z012 × 3 semillas = 15 modelos | 93,20 |
+| 14 | 14_Ens50juntar_13000 | `14-15_ens50_juntar` | `14_ens50juntar_13000.csv` | 10 trials z005 × 5 semillas, target BAJA+1 + BAJA+2 | (pendiente) |
+| 15 | 15_Ens50juntar_12000 | `14-15_ens50_juntar` | `15_ens50juntar_12000.csv` | ídem, top 12.000 | (pendiente) |
 
 Cortes del 3 al 11 (público): 10.000 94,46 · 10.500 94,63 · 11.000 97,82 · 11.500 99,11 · 12.000 99,11 ·
 12.500 96,42 · 13.000 95,18 · 13.500 93,72 · 14.000 94,63.
