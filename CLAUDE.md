@@ -159,7 +159,9 @@ Curva del público (3-11): 10.000 94,46 · 10.500 94,63 · 11.000 97,82 · 11.50
 | 12 | 12_Ens100z005_12000: 10 trials z005 × 10 semillas (100 modelos), top 12.000 | 94,82 |
 | 13 | 13_Ens15z012_12000: 5 trials z012 × 3 semillas (15 modelos), top 12.000; coincide 90% con el 12 | 93,20 |
 **Entrega vigente: 13_Ens15z012_12000 (93,20).** Ojo: z012 (+35 M en validación) no se vio en el público;
-sus hiperparámetros se eligieron y revalidaron en 202106 → posible sobreajuste a ese mes. Verificar en otro corte temporal.
+sus hiperparámetros se eligieron y revalidaron en 202106 → **z017 confirmó sobreajuste**: en 202105 (mes no visto)
+z005 trial 34 le gana a z012 trial 26 por 12-16 M en 5/5 semillas. **Volver a z005.** Todo lo elegido en 202106
+debe confirmarse en otro mes (pendiente: z009 juntar bajas en 202105).
 
 Notebooks de submit: `modelo_base.ipynb`, `modelo_lags_semillas.ipynb`, `modelo_optuna_ensamble.ipynb`,
 `modelo_final_noche.ipynb`. Correr notebooks desde afuera: Windows bloquea `jupyter nbconvert`;
@@ -185,7 +187,7 @@ Pruebas (todas contra el trial 34 = 399,6 M, una modificación cada una; detalle
 de cada notebook y en `resultados_experimentos.csv`):
 | Notebook | Prueba | Resultado | Veredicto |
 |---|---|---|---|
-| z012_optuna_rango | hessian 1-200, hojas 16-512 | **434,7-438,2 M** (hessian ~100-120, 16-50 hojas, ~3000 árboles = tope) | **+35-38 M: candidato fuerte** |
+| z012_optuna_rango | hessian 1-200, hojas 16-512 | 434,7-438,2 M en 202106 | **sobreajuste a 202106** (z017: −12 a −16 M en 202105) |
 | z009_juntar_bajas | BAJA+1 + BAJA+2 | **421,8 M**, mejor N ~14.700; top 12.000 empata | **+22 M: candidato** (cambia el N) |
 | z010_arboles | 2 meses train, ×1/×1,5/×2 árboles | 405,8 / 400,5 / 396,7 | más árboles no suma |
 | z011_ajustar_drift | sin fechas / sueldo ×2/3 / depósitos / Visa suavizado | +1,6 / −0,6 / 0,0 / −2,2 | drift casi no afecta |
