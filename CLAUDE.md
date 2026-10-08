@@ -218,3 +218,20 @@ Antes de combinar: probar la combinación con 5-10 semillas.
     (b) KMeans sobre variables clave de cada mes (ver si sklearn corre; Windows lo bloqueaba);
     (c) usar el grupo como variable, o ajustar el corte/probabilidad por grupo, o un modelo por grupo.
   - Probar como siempre: una sola modificación, 5-10 semillas, contra la referencia.
+
+## PRÓXIMO PASO (para el chat nuevo, 08/10): submits 16 y 17 — ¿el 15 es confiable?
+Objetivo: ver si "juntar BAJA+1 + BAJA+2" (submit 15, 101,92) es realmente mejor que "solo BAJA+2" (submit 12, 94,82)
+o si fue suerte del público. Se comparan **distribuciones** en el bot (varios archivos en un submit → media ± desvío).
+1. Semillas NUEVAS (elegidas por Keila que sean bien distintas): **270131, 417293, 583117, 692347, 851071**.
+2. Entrenar con esas 5 semillas los 10 trials de `0_exploracion/z005_top10_final.csv`, train 202103-202106,
+   **dos versiones**: target BAJA+1 + BAJA+2 (como `submits/14-15_ens50_juntar.ipynb`) y solo BAJA+2
+   (como `submits/12_ens100_z005.ipynb`). 2 × 50 modelos, ~2,2 min cada uno → **~4 h**. Guardar cada predicción
+   en `submits/probs_16-17/` para poder retomar si se corta.
+3. Por cada semilla, promediar sus 10 trials → 1 archivo top 12.000. Notebook: `submits/16-17_distribucion_semillas.ipynb`.
+   - **Submit 16**: 5 archivos de juntar (`16_juntar_s<semilla>_12000.csv`), todos en el mismo submit.
+   - **Submit 17**: 5 archivos de solo BAJA+2 (`17_solo_s<semilla>_12000.csv`), todos en el mismo submit.
+4. Comparar media ± desvío. Ojo: el público es siempre el mismo 25%; la evidencia fuerte de juntar es que ganó
+   en validación en junio (z009) y en mayo (z019).
+5. **Después** (cuando Keila decida): volver a mandar un archivo único como entrega vigente. Un submit de varios
+   archivos NO vale como entrega final.
+Lanzar el entrenamiento desde el chat nuevo (los procesos dependen del chat que los lanza). Avisar y esperar OK antes.
