@@ -161,7 +161,10 @@ Curva del público (3-11): 10.000 94,46 · 10.500 94,63 · 11.000 97,82 · 11.50
 **Entrega vigente: 13_Ens15z012_12000 (93,20).** Ojo: z012 (+35 M en validación) no se vio en el público;
 sus hiperparámetros se eligieron y revalidaron en 202106 → **z017 confirmó sobreajuste**: en 202105 (mes no visto)
 z005 trial 34 le gana a z012 trial 26 por 12-16 M en 5/5 semillas. **Volver a z005.** Todo lo elegido en 202106
-debe confirmarse en otro mes (pendiente: z009 juntar bajas en 202105).
+debe confirmarse en otro mes.
+- **z019: juntar BAJA+1 + BAJA+2 también gana en mayo** (+21,5 y +17,8 M, 5/5 semillas) → mejora REAL.
+- **z018: modelo común en 5 cortes**: mayo es más difícil (27-29% del ideal vs ~34% junio); el mejor N por BAJA+2
+  es ~12-14 en junio y ~9-10 en mayo. Sumar marzo al train ayuda un poco.
 
 Notebooks de submit: `modelo_base.ipynb`, `modelo_lags_semillas.ipynb`, `modelo_optuna_ensamble.ipynb`,
 `modelo_final_noche.ipynb`. Correr notebooks desde afuera: Windows bloquea `jupyter nbconvert`;
