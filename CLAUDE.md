@@ -31,7 +31,13 @@ Mi carpeta de trabajo es `py`, en el Escritorio. Cada materia tiene su propia su
 - Primera competencia: predecir qué clientes reciben estímulo de retención en **202108**.
 - **Cierre: domingo 11/10/2026, 23:59 (hora Buenos Aires).** Detalles en `CONSIGNA_COMPETENCIA.md`.
 - Las clases (carpetas 2 a 7) no se entregan: son herramientas para la competencia.
-- Datos: `py/competencia_01.csv` (155 columnas; target `clase_ternaria`).
+- Datos: **usar `py/competencia_01.parquet`** (`pd.read_parquet`), creado el 07/10/2026 a partir
+  de `competencia_01.csv` (original, no tocar; queda de respaldo). 983.061 filas, 155 columnas.
+  Cambios respecto del CSV:
+  - `clase_ternaria` recalculada con la definición estricta (BAJA+1 = no está el mes siguiente;
+    BAJA+2 = está el siguiente pero no el subsiguiente). 29 filas pasaron de CONTINUA a BAJA
+    (clientes que se van y vuelven). Coincide con los números de los compañeros.
+  - `ccajas_depositos` = NA solo en 202105 (estaba todo en cero; recomendación del profesor).
 - Diccionario de variables: `py/diccionario.ods`.
 - Resumen teórico de las clases: `py/RESUMEN_TEORICO.md`.
 - Top 40 de variables ya seleccionadas en la clase 5: `clusters/variables_seleccionadas.txt`.
@@ -54,6 +60,17 @@ Mi carpeta de trabajo es `py`, en el Escritorio. Cada materia tiene su propia su
 - z401: el archivo "_1000.sav" guarda el modelo de 100 árboles.
 - z402: los select no agregan columnas; usar create or replace table antes del COPY.
 - Optuna con load_if_exists=True suma ensayos: cambiar el nombre del estudio al cambiar la semilla.
+- z601: **falta `bagging_freq`** → bagging_fraction no hace nada (LightGBM lo apaga con
+  bagging_freq=0). Si se usa bagging_fraction, poner `bagging_freq = 1` (fijo; subirlo si va lento).
+- z601: el entrenamiento usa 250 árboles fijos con `#best_iter` comentado. En el modelo final
+  usar el best_iter real (`study.best_trial.user_attrs["best_iter"]`).
+- z601: la celda `top_n = 3` reentrena los 3 mejores trials y se elige a mano (el 1° de Optuna
+  no siempre es el mejor). Conviene adoptarlo.
+- Juntar clases (BAJA+1 + BAJA+2): la ganancia personalizada dentro de LightGBM solo ve 0/1 y no
+  distingue BAJA+1 (costo) de BAJA+2 (ganancia). Salidas: pesos (`weight`) distintos por clase
+  (un hack), o entrenar/predecir a mano (sin `lgb.cv`) y calcular la ganancia afuera con
+  clase_ternaria; para early stopping usar AUC. (Con la receta del profesor, métrica AUC y
+  ganancia calculada afuera como en z002, el problema no aparece.)
 
 ## Indicaciones de la tutoría (05/10/2026) — SEGUIR ESTO
 - **No sacar `numero_de_cliente`**: se usa como variable (z002 todavía lo saca: corregir).
@@ -64,52 +81,94 @@ Mi carpeta de trabajo es `py`, en el Escritorio. Cada materia tiene su propia su
 - **Undersampling**: entrenar con una parte de los CONTINUA (no con todos).
 - **Elegir N**: graficar la curva de ganancia de cada semilla (tienen forma de parábola),
   promediarlas y tomar el máximo de la curva promedio como cantidad a enviar.
+- **Ensamble de semillas**: entrenar el mismo modelo con varias semillas, promediar las
+  probabilidades por cliente y mandar el top N → un solo CSV (sirve para la entrega final).
 
-## Plan (sesión del 05/10/2026)
-1. Exploración: `0_exploracion/z001_exploracion.ipynb`  ← hecho
-   (meses 202103-202108, target completo hasta 202106; ccajas_depositos rota en 202105;
-   Finiciomora ~100% nulos = sin mora, no descartar; drift por aguinaldo/inflación)
-2. Modelo base LightGBM: `0_exploracion/z002_modelo_base.ipynb` (versión A: solo BAJA+2,
-   train 202104, valid 202106)  ← hecho. Resultados en `0_exploracion/resultados_experimentos.csv`:
-   - [202104]: ganancia máx 323,8 M (N=14184), AUC 0,879. Corte 0,025: 298,2 M (6677 clientes).
-   - [202103, 202104]: ganancia máx 357,0 M (N=11700), AUC 0,891. Corte 0,025: 322,1 M (7327).
-   - Prob. en el corte óptimo < 0,025 → el modelo subestima; cortar por cantidad.
-   - ctrx_quarter es la variable más importante (15%).
+## Recomendaciones del profesor (Gustavo Denicolay) — PARA REVISAR
+Texto casi literal. Revisar juntas qué adoptamos y qué no.
 
-## Flujo eficiente (06 al 11/10) — VOS = Keila, CLAUDE = lo corre Claude
-Idea: UN pipeline reutilizable (`pipeline.py`) con opciones que se prenden de a una.
-Cada mejora se valida en 202106 con ~5 semillas y se anota en resultados_experimentos.csv.
-Solo se adopta si sube la ganancia de la curva promedio.
+- **1.1 Data Quality**: `ccajas_depositos` está rota en 202105 (todos ceros).
+  Solución: asignar NA en ccajas_depositos **solo para 202105**.
+- **1.2 Data Drifting**: tbd.
+- **1.3 FE intra mes**: variables a eliminar = (vacío); variables manuales a crear = (vacío).
+- **1.4 FE histórico**: es superador agregar **lags y delta lags de orden 1 y 2**.
+- **1.5 FE hojas de Random Forest**: tbd.
+- **1.6 FE canaritos asesinos**: tbd.
+- **1.7 Training strategy**:
+  - **Sin undersampling** de CONTINUA durante la optimización bayesiana ("son muy pocos
+    meses"; el undersampling recién hace falta en la Segunda Competencia).
+  - Métrica de LightGBM: **AUC**.
+  - Hiperparámetros **fijos**: max_bin = 31, **min_data_in_leaf = 0** (muy importante),
+    feature_fraction = 0.50, feature_fraction_bynode = 0.20, **learning_rate = 0.005** (muy importante).
+  - Hiperparámetros a optimizar (bayesiana): num_iterations, num_leaves, min_sum_hessian_in_leaf.
+- **2.1 Final training**: entrenar **varios modelos (10+) con hiperparámetros distintos**
+  en 202103, 202104, 202105, 202106, sin undersampling.
+- **2.2 Scoring**: aplicar esos modelos a 202108 y **ensamblar promediando probabilidades
+  por numero_de_cliente**.
+- **2.3 Classification**: probar distintos cortes (10000, 10500, 11000, etc.) contra el
+  pseudo Kaggle (el bot de Zulip).
+- **Plataforma**: recomienda Google Cloud ya para esta competencia (no Windows/Mac).
 
-- **Mar 06**
-  1. CLAUDE: convertir el CSV a parquet (carga más rápida, menos RAM).
-  2. VOS: en z002, volver a incluir numero_de_cliente y correr una vez.
-  3. CLAUDE arma las celdas, VOS corrés: **primer submit simple** (train 202103-202106,
-     predecir 202108, top 12.000). Objetivo: comprobar el formato, no ganar.
-- **Mié 07**
-  4. CLAUDE: escribir `pipeline.py` (carga → atributos → undersampling → entrenar
-     N semillas → curva de ganancia promedio → CSVs de 202108). VOS: leerlo, versión corta.
-  5. CLAUDE corre comparaciones con 5 semillas: clase A vs B (BAJA+1+BAJA+2) y
-     undersampling (todos los CONTINUA vs 10-20%).
-- **Jue 08**
-  6. CLAUDE: feature engineering automático sobre todas las variables (lags 1-3,
-     deltas 1-3, rankings por mes de los montos) → ~1000-1500 atributos. Con DuckDB
-     por la memoria. VOS: mirar el código de un lag para entenderlo.
-  7. CLAUDE: comparar contra el pipeline sin atributos nuevos. Submit con varias semillas.
-- **Vie 09**
-  8. CLAUDE: Optuna 30-50 trials con undersampling (de fondo, puede ser de noche).
-- **Sáb 10**
-  9. CLAUDE: modelo final (train 202103-202106), 20 semillas, curva promedio → N.
-     Submit con los 20 CSV (media y desvío del bot).
-  10. Armar el **archivo único final**: promedio de probabilidades de las 20 semillas,
-      top N. Enviarlo ya el sábado.
-- **Dom 11** (margen por si algo falla)
-  11. Reenviar el submit de UN solo archivo antes de las 23:59 (mejor de día).
+### Decisiones tomadas (07/10), sobre las diferencias tutoría / profesor
+- **Seguimos el Plan A (profesor)**: 1 modelo tarda ~30 s (1 mes) / ~2,2 min (4 meses) en esta compu.
+  No hace falta Google Cloud.
+- **Sin undersampling** (rápido igual; los hiperparámetros de Optuna son para datos completos).
+- **Atributos**: originales + lags y deltas de orden 1 y 2 = 761 variables. No se fue a 1000-1500.
+- **Ensamble**: hiperparámetros distintos (mejores trials) **y** varias semillas.
+- **Elegir N**: curva promedio en validación + Montecarlo + cortes contra el bot → **N ≈ 12.000**.
+- Validación: **holdout temporal** (train 202104, valid 202106), no cross validation; el ruido se
+  cubre con 5 semillas (Montecarlo de semillas).
 
-Si falta tiempo, recortar en este orden: Optuna → parte de los atributos → clase B.
-Nunca recortar: el submit simple (paso 3) ni el archivo único final (pasos 10-11).
+## Target por mes (parquet, clase_ternaria recalculada)
+| foto_mes | BAJA+1 | BAJA+2 | CONTINUA | sin target | % BAJA+2 |
+|---|---|---|---|---|---|
+| 202103 | 1019 | 960  | 160921 | 0      | 0,59 |
+| 202104 | 964  | 1139 | 161181 | 0      | 0,70 |
+| 202105 | 1143 | 870  | 161755 | 0      | 0,53 |
+| 202106 | 874  | 1098 | 162142 | 0      | 0,67 |
+| 202107 | 1103 | 0    | 0      | 163245 | —    |
+| 202108 | 0    | 0    | 0      | 164647 | —    |
 
-## Pendiente técnico
-- Instalar nbformat e ipywidgets en el .venv (gráficos de Optuna).
+## Experimentos (todo en `0_exploracion/resultados_experimentos.csv`)
+Validación: train 202104, valid 202106, solo BAJA+2. Ganancia máx en validación (millones).
+- **z001** exploración. **z002** modelo base (lee el parquet, usa numero_de_cliente): 335,8 M.
+- **z003** lags/deltas: con 5 semillas, base 336,6 → **+ orden 1: 347,2** (gana 5/5).
+  Orden 2: empate con orden 1 (con train 202104, lag2 queda todo NaN). Se usan orden 1 y 2.
+- **z004** receta del profesor (1 modelo): 383,6 M (vs 350,2 M receta vieja, misma semilla).
+- **z005** Optuna 40 trials (estudio `z005_profesor_s501419`, SQLite en `C:/Users/keila/optuna/z005.db`,
+  fuera de OneDrive) + revalidación de los 10 mejores con 5 semillas.
+  - El 1° de Optuna (trial 6, 401,8 M) era suerte: con 5 semillas 377,5 ± 15,5.
+  - **Mejor real: trial 34** (num_leaves 137, min_sum_hessian 9,76, 538 árboles): **399,6 ± 2,3**.
+  - Zona buena: hessian 5-10, 60-240 hojas. Archivos: `z005_optuna_trials.csv`, `z005_top10_5semillas.csv`.
+- **z006** elegir N: curva promedio de 5 semillas (trial 34) plana entre ~12.000 y 15.500;
+  ensamble de 8 trials: máx en 11.628 (399,6 M). Montecarlo (200 muestras del 25%):
+  **ruido del público ± 12 M** con el mismo archivo; mejor N 11.500-12.000.
+- **z007** drift (variables en pesos → ranking por mes): **empeora −19 M** (0/5 semillas). Descartado.
 
+## Submits (Zulip, bot @competencia-uno) — carpeta `submits/`
+Convención: **el número del submit va adelante** en el nombre del archivo y en el título del bot.
+Todos los archivos de un mismo submit llevan el mismo número; cada submit nuevo, +1.
+| N° | Qué | Público |
+|---|---|---|
+| 0 | base_0: modelo base, 1 semilla, top 10.000 | 90,83 |
+| 1 | LagsSemillas01: lags, receta vieja, 5 semillas (5 archivos), top 11.500 | 92,67 ± 3,90 |
+| 2 | LagsEnsamble01: ensamble de esas 5 semillas, top 11.500 | 97,07 |
+| 3-11 | OptunaEns: ensamble 8 trials z005 × 1 semilla, cortes 10.000 a 14.000 | máx **99,11** (11.500 y 12.000) |
+Curva del público (3-11): 10.000 94,46 · 10.500 94,63 · 11.000 97,82 · 11.500 99,11 · 12.000 99,11 ·
+12.500 96,42 · 13.000 95,18 · 13.500 93,72 · 14.000 94,63.
+**Entrega vigente: 11_OptunaEns_12000 (99,11).**
 
+Notebooks de submit: `modelo_base.ipynb`, `modelo_lags_semillas.ipynb`, `modelo_optuna_ensamble.ipynb`,
+`modelo_final_noche.ipynb`. Correr notebooks desde afuera: Windows bloquea `jupyter nbconvert`;
+usar `nbclient` desde Python.
+
+## Corriendo la noche del 07/10
+`submits/modelo_final_noche.ipynb`: revalida 4 trials más, toma los **10 mejores trials × 10 semillas
+= 100 modelos** (train 202103-202106), ~4 h. Guarda cada predicción en `submits/probs_noche/`
+(si se corta, volver a correr y retoma). Genera `12_final_ens100_11500.csv` y `13_final_ens100_12000.csv`.
+
+## Próximos pasos (08 al 11/10)
+1. Revisar el resultado de la noche; mandar el **12** y después el **13** (12.000 último).
+2. Opcional: probar si el modelo final necesita más árboles al entrenar con 4 meses
+   (validar train 202103-202104 → valid 202106 con best_iter ×1 vs ×1,5).
+3. **Sáb 10**: elegir el archivo único final. **Dom 11**: reenviarlo antes de las 23:59.
