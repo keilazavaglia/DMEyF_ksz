@@ -156,7 +156,10 @@ Todos los archivos de un mismo submit llevan el mismo número; cada submit nuevo
 | 3-11 | OptunaEns: ensamble 8 trials z005 × 1 semilla, cortes 10.000 a 14.000 | máx **99,11** (11.500 y 12.000) |
 Curva del público (3-11): 10.000 94,46 · 10.500 94,63 · 11.000 97,82 · 11.500 99,11 · 12.000 99,11 ·
 12.500 96,42 · 13.000 95,18 · 13.500 93,72 · 14.000 94,63.
-**Entrega vigente: 11_OptunaEns_12000 (99,11).**
+| 12 | 12_Ens100z005_12000: 10 trials z005 × 10 semillas (100 modelos), top 12.000 | 94,82 |
+| 13 | 13_Ens15z012_12000: 5 trials z012 × 3 semillas (15 modelos), top 12.000; coincide 90% con el 12 | 93,20 |
+**Entrega vigente: 13_Ens15z012_12000 (93,20).** Ojo: z012 (+35 M en validación) no se vio en el público;
+sus hiperparámetros se eligieron y revalidaron en 202106 → posible sobreajuste a ese mes. Verificar en otro corte temporal.
 
 Notebooks de submit: `modelo_base.ipynb`, `modelo_lags_semillas.ipynb`, `modelo_optuna_ensamble.ipynb`,
 `modelo_final_noche.ipynb`. Correr notebooks desde afuera: Windows bloquea `jupyter nbconvert`;
