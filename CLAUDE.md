@@ -167,7 +167,8 @@ debe confirmarse en otro mes.
   es ~12-14 en junio y ~9-10 en mayo. Sumar marzo al train ayuda un poco.
 - **z020: sacar ccajas_depositos no cambia nada** (+0,1 / −0,7 / −2,6 M). Mayo no es difícil por esa variable.
 - **Submits 14 y 15** (`submits/14-15_ens50_juntar.ipynb`): z005 × 5 semillas con target BAJA+1 + BAJA+2,
-  top 13.000 y 12.000. Coincide 91,8% con el 12.
+  top 13.000 y 12.000. Coincide 91,8% con el 12. **Público: 14 = 99,36; 15 = 101,92 (el mejor hasta ahora).**
+  **Entrega vigente: 15_Ens50juntar_12000 (101,92).**
 
 Notebooks de submit: `modelo_base.ipynb`, `modelo_lags_semillas.ipynb`, `modelo_optuna_ensamble.ipynb`,
 `modelo_final_noche.ipynb`. Correr notebooks desde afuera: Windows bloquea `jupyter nbconvert`;
