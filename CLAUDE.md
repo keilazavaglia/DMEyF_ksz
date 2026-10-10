@@ -259,6 +259,14 @@ usar `nbclient` desde Python.
   tiene_payroll y m_patrimonio_banco prioridad baja; r_saldo_limite / r_consumo_limite (z013, probadas solo en grupo) → reprobar solas.
 - **Próximo paso:** probar las variables de prioridad alta (sin_tarjeta, r_saldo_limite, r_consumo_limite) de a una,
   con 5-10 semillas y los dos cortes (04→06 y 03→05), contra la referencia (trial 34 juntar). Sin commit todavía.
+
+## z026 nuevas variables (11/10) — `0_exploracion/z026_nuevas_variables.ipynb` (40 min), Excel `nuevas_variables_bajas_final.xlsx`
+- Grupos A tarjetas (+ sin_tarjeta), B plata, C uso/fidelidad; trial 34, 10 semillas, dos cortes, regla de z024. **Ninguno pasa.**
+- A: junio −4,0 M (2/10), mayo +2,7 (9/10). **B y C ganan claro en junio** (+3,8/+4,4 máx, **+10,7/+12,3 en N fijo**, 8/10)
+  pero empatan o pierden en mayo (−0,8/−0,9), donde el train 202103 no tiene historia → candidatos a reprobar con un corte con historia.
+- Juntar le gana a solo BAJA+2 en 9-10/10 en todas las versiones (4ª confirmación). Segmentos: ningún grupo tapa a otro (≤ 1,5 pts).
+- Gain: nuevas = A 7%, B 20%, C 14%; fuertes m_ingresos_total, c_servicios_usados, m_egresos_total, r_uso_vs_tenencia, c_tarjetas_trx.
+  Gain 0: m_adelantos_total, c_cheques_rechazados y todos los lag2/delta2 nuevos; sin_tarjeta casi 0. Receta sin cambios.
 ## Próximos pasos (08 al 11/10)
 1. Revisar el resultado de la noche; mandar el **12** y después el **13** (12.000 último).
 2. Opcional: probar si el modelo final necesita más árboles al entrenar con 4 meses
