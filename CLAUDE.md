@@ -151,7 +151,13 @@ Todos los archivos de un mismo submit llevan el mismo número; cada submit nuevo
 **REGLA: cada submit necesita su código completo (corre de principio a fin y genera exactamente el archivo enviado),
 guardado y subido a GitHub.** Nada de scripts sueltos.
 
+### Submits 33-37 (11/10): ens100 juntar + variables BC_limpio (z027) — `33-37_ens100juntarBC_completo.ipynb` (4,4 h)
+Igual que el 32 + 54 variables nuevas (815). Un archivo por corte: **33 = 12.000** (coincide 96,6% con el 32), 34 = 11.500,
+35 = 11.000, 36 = 10.500, 37 = 12.500. Probabilidades en `33_ens100_probs.parquet` y `probs_33/`. Público: (pendiente).
+**El último archivo enviado es la entrega:** si se prefiere el 32, reenviarlo al final con número nuevo.
+
 ### Estado del código por submit (11/10)
+- **Completo: 33-37** (`33-37_ens100juntarBC_completo.ipynb`, corre de principio a fin y genera los 5 CSV).
 - **Completo y verificado: 32** (`32_ens100juntar_12000_completo.ipynb`; reproduce el CSV byte a byte).
 - Con notebook propio (no re-verificado): 0-17 (un notebook por submit o grupo) y 29/31 (`29_lag3.ipynb` genera ambos).
 - **SIN código completo: 18-28 y 30** (cortes y variantes del ens100 juntar, 26 solo150, 27 mezcla, 30 sin nuevos):
@@ -267,6 +273,9 @@ usar `nbclient` desde Python.
 - Juntar le gana a solo BAJA+2 en 9-10/10 en todas las versiones (4ª confirmación). Segmentos: ningún grupo tapa a otro (≤ 1,5 pts).
 - Gain: nuevas = A 7%, B 20%, C 14%; fuertes m_ingresos_total, c_servicios_usados, m_egresos_total, r_uso_vs_tenencia, c_tarjetas_trx.
   Gain 0: m_adelantos_total, c_cheques_rechazados y todos los lag2/delta2 nuevos; sin_tarjeta casi 0. Receta sin cambios.
+- **z027** (`z027_bc_limpio.ipynb`): B+C "limpio" (54 vars, sin gain 0 ni lag2/delta2) y C limpio (20), + corte jun2m (train 03+04 → 06).
+  Regla: ≥ 8/10 y N fijo mejor en junio y jun2m; mayo N fijo ≥ −2 M. **BC_limpio: junio +18,3 M N fijo (10/10), jun2m +11,0 (9/10),
+  mayo −2,09 → no pasa por 0,09 M.** C limpio no alcanza. Se armó igual el submit con BC_limpio para verlo en el bot (submits 33-37).
 ## Próximos pasos (08 al 11/10)
 1. Revisar el resultado de la noche; mandar el **12** y después el **13** (12.000 último).
 2. Opcional: probar si el modelo final necesita más árboles al entrenar con 4 meses
