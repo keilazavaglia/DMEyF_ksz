@@ -168,7 +168,34 @@ debe confirmarse en otro mes.
 - **z020: sacar ccajas_depositos no cambia nada** (+0,1 / −0,7 / −2,6 M). Mayo no es difícil por esa variable.
 - **Submits 14 y 15** (`submits/14-15_ens50_juntar.ipynb`): z005 × 5 semillas con target BAJA+1 + BAJA+2,
   top 13.000 y 12.000. Coincide 91,8% con el 12. **Público: 14 = 99,36; 15 = 101,92 (el mejor hasta ahora).**
-  **Entrega vigente: 15_Ens50juntar_12000 (101,92).**
+- **Submits 16 y 17** (`submits/16-17_distribucion_semillas.ipynb`, 08/10): semillas nuevas 270131, 417293, 583117,
+  692347, 851071; 10 trials z005 × 5 semillas, 1 archivo por semilla (promedio de 10 trials), top 12.000.
+  **16 juntar: 101,45 ± 0,53; 17 solo BAJA+2: 95,63 ± 1,09 → juntar +5,8 M, no es suerte. SE ADOPTA JUNTAR.**
+  Archivos de una misma versión coinciden 98%; juntar vs solo 92%. Predicciones en `submits/probs_16-17/`.
+  **Ojo: el último submit (17) es de varios archivos → NO vale como entrega final; reenviar un archivo único.**
+  Entrega vigente (último archivo único): 15_Ens50juntar_12000 (101,92).
+- **Submits 18-28** (08/10, sin entrenar; "ens100 juntar" = 50 modelos del 15 + 50 del 16, probabilidades en
+  `submits/28_ens100_juntar_probs.parquet`):
+  18-25 = ens100 juntar con N 10.000 / 10.500 / 11.000 / 11.500 / 12.500 / 13.000 / 13.500 / 14.000;
+  26 = 150 modelos solo BAJA+2 (12 + 17), top 12.000; 27 = mezcla juntar + solo (promedio de rankings), top 12.000;
+  **28 = ens100 juntar top 12.000 (coincide 99,5% con el 15).**
+  Público curva juntar: 10.000 100,21 · 10.500 **103,51** · 11.000 102,08 · 11.500 102,99 · 12.000 102,11 ·
+  12.500 100,90 · 13.000 98,48 · 13.500 98,20 · 14.000 97,93. Meseta 10.500-12.000 (~102-103,5), cae desde 12.500.
+  26 solo150 = 94,90; 27 mezcla = 98,15 → juntar puro es lo mejor.
+  **Entrega vigente: 28_ens100j_12000 (102,11), mandado último el 08/10 23:11.** Decidir el N final el sáb 10
+  (12.000 o 11.500; ojo: en validación junio el mejor N de juntar era mayor, ~14.700).
+
+## z021: curva promedio de N para juntar (método del tutor) — HECHO 08/10
+`0_exploracion/z021_curva_n_juntar.ipynb` (2,9 min): trial 34 z005, target juntar, 5 semillas (las del 16-17), dos cortes:
+train 202104 → valid 202106 y train 202103 → valid 202105. Resultados en `z021_curva_n_juntar.csv`.
+- **Mejor N: junio 13.900-15.100 (prom. 15.142); mayo 6.700-8.650 (prom. 6.802).** El N depende de cuántas BAJA+2 tiene
+  el mes (mayo 870, junio 1098). Promedio general: máx en 13.968 pero casi plano de 10.000 a 14.000 (lo arrastra junio).
+- Pérdida vs óptimo de cada mes (junio / mayo, M): 10.000 −48/−10 · 11.000 −41/−16 · 12.000 −30/−20 ·
+  **12.500 −25/−25** · 13.000 −17/−31 · 14.000 −2/−43. → **12.000-12.500 es lo que menos arriesga.**
+- Junto con el público (meseta 10.500-12.000): **recomendación = quedarse con 12.000 (submit 28).** Decisión final: Keila.
+- Pendiente menor: el gráfico `z021_curva_n_juntar.png` sale aplastado (falta `ax.set_ylim`).
+- Julio (202107) no se puede evaluar con el bot (el bot solo mira 202108); julio ya entra en los lags de 202108.
+- Correr notebooks desde afuera: usar el Python de `py/.venv/Scripts/python.exe` (el `python` del sistema no tiene nbclient).
 
 Notebooks de submit: `modelo_base.ipynb`, `modelo_lags_semillas.ipynb`, `modelo_optuna_ensamble.ipynb`,
 `modelo_final_noche.ipynb`. Correr notebooks desde afuera: Windows bloquea `jupyter nbconvert`;
@@ -179,11 +206,41 @@ usar `nbclient` desde Python.
 = 100 modelos** (train 202103-202106), ~4 h. Guarda cada predicción en `submits/probs_noche/`
 (si se corta, volver a correr y retoma). Genera `12_final_ens100_11500.csv` y `13_final_ens100_12000.csv`.
 
+## z022-z024 (09 al 11/10) — ninguna variable nueva se adopta: la receta queda igual
+- **z022 importancia** (1 modelo trial 34 juntar, train 202103-202106; `z022_importancia.csv`): top 10 todas originales
+  (ctrx_quarter 5,2%, mpasivos_margen, cpayroll_trx, mcuentas_saldo, mcaja_ahorro, mpayroll, Visa/débito). Gain por tipo:
+  originales 73%, lags 16,8%, deltas 10,1%. 167 de 761 variables con gain 0. numero_de_cliente puesto 94.
+- **z023 préstamos y calidad** (`z023_calidad.csv`): con préstamo se van MENOS en 03-05 (BAJA+1 0,1-0,2% vs 0,7% sin préstamo),
+  pero hay una **ola de salidas en agosto** (BAJA+2 junio = BAJA+1 julio): top 10% de monto BAJA+2 0,75% en junio (antes 0,10-0,18);
+  3+ préstamos 1,60%. Calidad: Master/Visa_fultimo_cierre = 0 en el 69% de 202106 (artefacto de fecha); ccajas_depositos ya conocido.
+  Exposición del submit 28: 6,8% de los 12.000 en top 10% monto o 3+ préstamos vs 12,1% de la cartera → chica.
+- **z024 pruebas** (`z024_pruebas_noche.ipynb`, `z024_resultados.csv`; trial 34 juntar, 10 semillas, cortes 04→06 y 03→05):
+  regla definida antes = gana ≥ 8/10 en los dos cortes y mejora N fijo (préstamos/fechas: decide mayo). **Ninguna pasa.**
+  a sin préstamos: mayo −23,5 M (0/10), junio +38 (la ola) → se quedan. b sin fechas: ~0. a+b: como a.
+  **c solo BAJA+2: −20,8 mayo / −18,7 junio, 0/10 en ambos, p=0,002 → juntar confirmado por 3ª vez.**
+  d pasó a cero / e rankings / f tendencias: empate o peor.
+- Ojo metodológico: el corte de mayo entrena con 202103 (primer mes) → sin lags; flags y tendencias no se pueden evaluar ahí.
+
 ## Próximos pasos (08 al 11/10)
 1. Revisar el resultado de la noche; mandar el **12** y después el **13** (12.000 último).
 2. Opcional: probar si el modelo final necesita más árboles al entrenar con 4 meses
    (validar train 202103-202104 → valid 202106 con best_iter ×1 vs ×1,5).
-3. **Sáb 10**: elegir el archivo único final. **Dom 11**: reenviarlo antes de las 23:59.
+3. **Dom 11 (lo que queda)**: z024 no cambió variables → no hace falta Optuna ni ensamble nuevo; el ensamble de 100 del
+   submit 28 es el definitivo. Solo elegir N (12.000 = `28_ens100juntar_12000.csv`, vigente; u 11.500 = `21_ens100juntar_11500.csv`)
+   y reenviarlo como **último submit** antes de las 23:59.
+4. **PENDIENTE: revisar el N final por la diferencia entre meses** (ver z021): el mejor N cambia mucho según el mes
+   (mayo ~7.000, junio ~15.000) porque depende de cuántas BAJA+2 tiene el mes, y no sabemos a cuál se parece agosto.
+   Hoy la recomendación es 12.000 (menor pérdida en el peor caso + meseta del público 10.500-12.000), pero revisarlo
+   con Keila antes de la entrega final.
+   **Observación de Keila:** en el público dieron más los N chicos (10.500 = 103,51; 11.500 = 102,99; 12.000 = 102,11;
+   desde 12.500 cae). Sugiere que agosto se parece más a mayo (pocas BAJA+2) → considerar bajar a **11.500**.
+   Cuidado: el público es 25% y dentro de la meseta las diferencias son de ±1,5 M; lo firme es la caída desde 12.500.
+   **¿10.500 u 11.500?** El pico de 10.500 (103,51) probablemente es ruido: zigzag 10.500 → 11.000 (102,08) → 11.500
+   (102,99). Pérdida vs óptimo (z021): 10.500 = −14 M si agosto es como mayo / −44 M si es como junio; 11.500 = −18 / −35.
+   → 11.500 arriesga menos (pierde 4 M si es mayo, gana 9 M si es junio) y está a 0,5 M del máximo público.
+   10.500 no es mala elección, pero es apostar más a que agosto se parece a mayo.
+   Archivos ya hechos (100 modelos juntar): `submits/19_ens100juntar_10500.csv`, `21_ens100juntar_11500.csv`,
+   `28_ens100juntar_12000.csv` (vigente). Para cambiar la entrega: reenviar el elegido como ÚLTIMO submit.
 
 ## Resultados de la noche del 07 al 08/10 — DECIDIR CON KEILA qué se adopta
 Ensamble final `submits/modelo_final_noche.ipynb`: listo (10 trials × 10 semillas = 100 modelos, 4 h).
@@ -219,7 +276,7 @@ Antes de combinar: probar la combinación con 5-10 semillas.
     (c) usar el grupo como variable, o ajustar el corte/probabilidad por grupo, o un modelo por grupo.
   - Probar como siempre: una sola modificación, 5-10 semillas, contra la referencia.
 
-## PRÓXIMO PASO (para el chat nuevo, 08/10): submits 16 y 17 — ¿el 15 es confiable?
+## HECHO (08/10, resultado arriba en Submits): submits 16 y 17 — ¿el 15 es confiable? → Sí, juntar gana.
 Objetivo: ver si "juntar BAJA+1 + BAJA+2" (submit 15, 101,92) es realmente mejor que "solo BAJA+2" (submit 12, 94,82)
 o si fue suerte del público. Se comparan **distribuciones** en el bot (varios archivos en un submit → media ± desvío).
 1. Semillas NUEVAS (elegidas por Keila que sean bien distintas): **270131, 417293, 583117, 692347, 851071**.
