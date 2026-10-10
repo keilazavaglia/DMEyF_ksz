@@ -223,6 +223,7 @@ train 202104 → valid 202106 y train 202103 → valid 202105. Resultados en `z0
 - Pendiente menor: el gráfico `z021_curva_n_juntar.png` sale aplastado (falta `ax.set_ylim`).
 - Julio (202107) no se puede evaluar con el bot (el bot solo mira 202108); julio ya entra en los lags de 202108.
 - Correr notebooks desde afuera: usar el Python de `py/.venv/Scripts/python.exe` (el `python` del sistema no tiene nbclient).
+  El .venv no tiene openpyxl: para leer .xlsx, leer el XML del zip (o instalarlo con OK).
 
 Notebooks de submit: `modelo_base.ipynb`, `modelo_lags_semillas.ipynb`, `modelo_optuna_ensamble.ipynb`,
 `modelo_final_noche.ipynb`. Correr notebooks desde afuera: Windows bloquea `jupyter nbconvert`;
@@ -247,6 +248,17 @@ usar `nbclient` desde Python.
   **c solo BAJA+2: −20,8 mayo / −18,7 junio, 0/10 en ambos, p=0,002 → juntar confirmado por 3ª vez.**
   d pasó a cero / e rankings / f tendencias: empate o peor.
 - Ojo metodológico: el corte de mayo entrena con 202103 (primer mes) → sin lags; flags y tendencias no se pueden evaluar ahí.
+
+## z025 exploración (10/10) — ¿quiénes se van? (`0_exploracion/z025_exploracion.ipynb`, 12 s)
+- % BAJA+2 por rango, 202103-202106 (prom. 0,62%). Fuertes: **sin sueldo 2,0× (con sueldo 0,14×)**, **sin tarjeta/límite 0 5,1×**,
+  saldo negativo/cero ~3×, antigüedad 1-5 años ~1,5× (más de 10 años 0,7×). Edad en U, moderada (65+ 1,33×).
+- Saldo/límite y consumo/límite: BAJA+2 con mediana ≈ 0 en **todos** los rangos de límite → el cociente sirve parejo.
+- Transferencias recibidas NO incluyen el sueldo (m_ingresos_total OK). **`cmobile_app_trx` vale solo 0/1**
+  (marca de "usa la app", no cantidad) → c_trx_digitales = home banking + call center, sin la app.
+- Excel actualizado (`nuevas_variables_bajas.xlsx`, versión anterior en `nuevas_variables_bajas_antes_z025.xlsx`): nueva `sin_tarjeta` (prioridad alta);
+  tiene_payroll y m_patrimonio_banco prioridad baja; r_saldo_limite / r_consumo_limite (z013, probadas solo en grupo) → reprobar solas.
+- **Próximo paso:** probar las variables de prioridad alta (sin_tarjeta, r_saldo_limite, r_consumo_limite) de a una,
+  con 5-10 semillas y los dos cortes (04→06 y 03→05), contra la referencia (trial 34 juntar). Sin commit todavía.
 ## Próximos pasos (08 al 11/10)
 1. Revisar el resultado de la noche; mandar el **12** y después el **13** (12.000 último).
 2. Opcional: probar si el modelo final necesita más árboles al entrenar con 4 meses
