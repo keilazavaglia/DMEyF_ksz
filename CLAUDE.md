@@ -148,6 +148,23 @@ Validación: train 202104, valid 202106, solo BAJA+2. Ganancia máx en validaci�
 ## Submits (Zulip, bot @competencia-uno) — carpeta `submits/`
 Convención: **el número del submit va adelante** en el nombre del archivo y en el título del bot.
 Todos los archivos de un mismo submit llevan el mismo número; cada submit nuevo, +1.
+**REGLA: cada submit necesita su código completo (corre de principio a fin y genera exactamente el archivo enviado),
+guardado y subido a GitHub.** Nada de scripts sueltos.
+
+### Estado del código por submit (11/10)
+- **Completo y verificado: 32** (`32_ens100juntar_12000_completo.ipynb`; reproduce el CSV byte a byte).
+- Con notebook propio (no re-verificado): 0-17 (un notebook por submit o grupo) y 29/31 (`29_lag3.ipynb` genera ambos).
+- **SIN código completo: 18-28 y 30** (cortes y variantes del ens100 juntar, 26 solo150, 27 mezcla, 30 sin nuevos):
+  se hicieron con scripts sueltos combinando predicciones de `14-15_ens50_juntar.ipynb` y `16-17_distribucion_semillas.ipynb`
+  (y de `12_ens100_z005.ipynb` para 26-27). **Si alguno de estos se usa, primero armar su `<submit>_completo.ipynb`
+  y hacer la prueba del 32:**
+  1. Un solo notebook de principio a fin (datos → lags → entrenar → ensamble → CSV), hiperparámetros escritos en el notebook.
+  2. Reproducir el Dataset igual que el original: LightGBM arma los bines con la semilla del PRIMER modelo de cada tanda
+     y los reusa (en el 32: un Dataset por grupo de semillas, armado con la primera semilla del grupo).
+  3. Prueba ampliada: reentrenar 1 modelo por trial (cubriendo todas las semillas) con el código del notebook y comparar
+     contra las predicciones guardadas (`np.array_equal`) → tienen que dar idénticas.
+  4. Copiar las predicciones originales a la carpeta de caché del notebook, correrlo y verificar que el CSV es igual
+     byte a byte al enviado. Commit y push.
 | N° | Qué | Público |
 |---|---|---|
 | 0 | base_0: modelo base, 1 semilla, top 10.000 | 90,83 |
