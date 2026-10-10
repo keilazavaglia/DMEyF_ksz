@@ -157,6 +157,22 @@ Igual que el 32 + 54 variables nuevas (815). Un archivo por corte: **33 = 12.000
 **Público (10/10, 23:09):** BC vs juntar viejo (18-28): 10.500 **105,22** vs 103,51 · 11.000 104,06 vs 102,08 · 11.500 101,50 vs 102,99 ·
 12.000 100,02 vs 102,11 · 12.500 98,95 vs 100,90. Promedio de los 5 cortes: 101,95 vs 102,32 → empate; BC mejora en N chicos y
 empeora en N grandes (diferencias ±2 M, dentro del ruido). **Último enviado: 37 (98,95) → hoy es la entrega vigente: reenviar la elegida.**
+Comparación 32 vs 36: comparten 10.459 clientes (99,6% del 36); el 36 es casi el 32 recortado → la diferencia es el N, no las variables.
+**Seguro: reenviar `32_ens100juntar_12000.csv` sin cambios con título `38_ens100juntar_12000` (38 = copia del 32; código = notebook del 32).**
+(Pendiente: Keila confirma que lo mandó.) Recomendación de N: 12.000 (conservador); 11.500 si se le da peso al público
+(un N más chico le gana a 12.000 solo si p(agosto como mayo) > ~70%).
+
+### PRÓXIMO PASO (lanzar desde un chat nuevo): z028 Optuna con target juntar → submit nuevo
+Los hiperparámetros del 32 (z005) se buscaron con **solo BAJA+2**; juntar se adoptó después sin volver a buscar.
+1. **Correr `0_exploracion/z028_optuna_juntar.ipynb`** (ya armado, sin correr; ~2 h 45 min) con nbclient desde `.venv`
+   (cwd = `0_exploracion`, `timeout=None`; avance en `z028_progreso.txt`). Repite z005 tal cual (40 trials, semilla 501419,
+   hojas 8-256, hessian 0,001-10, early stopping AUC 200, tope 3000, train 04 → valid 06, 761 variables) con **target juntar**.
+   Revalida los 10 mejores con **10 semillas** en junio (04→06) y mayo (03→05) contra el trial 34 juntar (`probs_z026/ref_*`).
+   **Regla (fijada antes): pasa si gana ≥ 8/10 y mejora N fijo en los dos cortes. Si pasan ≥ 3 → ensamble nuevo** (hasta 10, por promedio de los dos cortes).
+2. Si pasan ≥ 3: notebook completo `submits/39-.._completo.ipynb` = copia del notebook del 32 cambiando solo `TRIALS`
+   (hojas, hessian y best_iter de los que pasan) y la carpeta de caché; 10 semillas por trial (las del 32); un CSV por N
+   (12.000, 11.500, 11.000, 10.500, 12.500), un número de submit por archivo. ~4,5 h. Commit + push.
+3. Si pasan < 3: el 32 (38) queda como entrega. Anotar en z028 "Conclusiones" y acá.
 **El último archivo enviado es la entrega:** si se prefiere el 32, reenviarlo al final con número nuevo.
 
 ### Estado del código por submit (11/10)
