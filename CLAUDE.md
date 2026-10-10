@@ -182,8 +182,18 @@ debe confirmarse en otro mes.
   Público curva juntar: 10.000 100,21 · 10.500 **103,51** · 11.000 102,08 · 11.500 102,99 · 12.000 102,11 ·
   12.500 100,90 · 13.000 98,48 · 13.500 98,20 · 14.000 97,93. Meseta 10.500-12.000 (~102-103,5), cae desde 12.500.
   26 solo150 = 94,90; 27 mezcla = 98,15 → juntar puro es lo mejor.
-  **Entrega vigente: 28_ens100j_12000 (102,11), mandado último el 08/10 23:11.** Decidir el N final el sáb 10
-  (12.000 o 11.500; ojo: en validación junio el mejor N de juntar era mayor, ~14.700).
+  ~~Entrega vigente: 28~~ (ver submits 29-32 abajo).
+- **Submits 29-32 (11/10, madrugada)**:
+  | N° | Qué | Público |
+  |---|---|---|
+  | 29 | 10 trials z005 × semilla 270131, juntar, **con lag 3** (`29_lag3.ipynb`, 31 min) | 103,15 |
+  | 30 | ens100 juntar **sin clientes con antigüedad ≤ 3 meses** (46 reemplazados), top 12.000 | 102,00 |
+  | 31 | control del 29: mismo modelo **sin lag 3** (= semilla 270131 del 16) | 101,17 |
+  | 32 | **copia exacta del 28** (ens100 juntar, top 12.000) | **102,11** |
+  Lag 3: +2,0 M vs control, < umbral de 5 M (ruido; el lag 3 solo existe para 202106 en el train) → no se reentrena.
+  Sin nuevos: −0,1 M; en validación (preds de z024) mayo +0,8 / junio −1,8 (el modelo acertó 4 de 5 BAJA+2 nuevos) → no.
+  El 32 = 28 confirma que el bot es determinístico.
+  **ENTREGA FINAL VIGENTE: 32_ens100juntar_12000 (102,11), subido último el 11/10.** Para cambiar a 11.500: reenviar el 21.
 
 ## z021: curva promedio de N para juntar (método del tutor) — HECHO 08/10
 `0_exploracion/z021_curva_n_juntar.ipynb` (2,9 min): trial 34 z005, target juntar, 5 semillas (las del 16-17), dos cortes:
@@ -220,14 +230,12 @@ usar `nbclient` desde Python.
   **c solo BAJA+2: −20,8 mayo / −18,7 junio, 0/10 en ambos, p=0,002 → juntar confirmado por 3ª vez.**
   d pasó a cero / e rankings / f tendencias: empate o peor.
 - Ojo metodológico: el corte de mayo entrena con 202103 (primer mes) → sin lags; flags y tendencias no se pueden evaluar ahí.
-
 ## Próximos pasos (08 al 11/10)
 1. Revisar el resultado de la noche; mandar el **12** y después el **13** (12.000 último).
 2. Opcional: probar si el modelo final necesita más árboles al entrenar con 4 meses
    (validar train 202103-202104 → valid 202106 con best_iter ×1 vs ×1,5).
-3. **Dom 11 (lo que queda)**: z024 no cambió variables → no hace falta Optuna ni ensamble nuevo; el ensamble de 100 del
-   submit 28 es el definitivo. Solo elegir N (12.000 = `28_ens100juntar_12000.csv`, vigente; u 11.500 = `21_ens100juntar_11500.csv`)
-   y reenviarlo como **último submit** antes de las 23:59.
+3. **HECHO (11/10)**: entrega final = **32_ens100juntar_12000** (copia del 28, 102,11), subido último. Si se cambia a 11.500,
+   reenviar `21_ens100juntar_11500.csv` como último antes de las 23:59. Si no, no tocar nada más.
 4. **PENDIENTE: revisar el N final por la diferencia entre meses** (ver z021): el mejor N cambia mucho según el mes
    (mayo ~7.000, junio ~15.000) porque depende de cuántas BAJA+2 tiene el mes, y no sabemos a cuál se parece agosto.
    Hoy la recomendación es 12.000 (menor pérdida en el peor caso + meseta del público 10.500-12.000), pero revisarlo
