@@ -153,7 +153,10 @@ guardado y subido a GitHub.** Nada de scripts sueltos.
 
 ### Submits 33-37 (11/10): ens100 juntar + variables BC_limpio (z027) — `33-37_ens100juntarBC_completo.ipynb` (4,4 h)
 Igual que el 32 + 54 variables nuevas (815). Un archivo por corte: **33 = 12.000** (coincide 96,6% con el 32), 34 = 11.500,
-35 = 11.000, 36 = 10.500, 37 = 12.500. Probabilidades en `33_ens100_probs.parquet` y `probs_33/`. Público: (pendiente).
+35 = 11.000, 36 = 10.500, 37 = 12.500. Probabilidades en `33_ens100_probs.parquet` y `probs_33/`.
+**Público (10/10, 23:09):** BC vs juntar viejo (18-28): 10.500 **105,22** vs 103,51 · 11.000 104,06 vs 102,08 · 11.500 101,50 vs 102,99 ·
+12.000 100,02 vs 102,11 · 12.500 98,95 vs 100,90. Promedio de los 5 cortes: 101,95 vs 102,32 → empate; BC mejora en N chicos y
+empeora en N grandes (diferencias ±2 M, dentro del ruido). **Último enviado: 37 (98,95) → hoy es la entrega vigente: reenviar la elegida.**
 **El último archivo enviado es la entrega:** si se prefiere el 32, reenviarlo al final con número nuevo.
 
 ### Estado del código por submit (11/10)
