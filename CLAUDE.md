@@ -168,6 +168,13 @@ Comparación 32 vs 36: comparten 10.459 clientes (99,6% del 36); el 36 es casi e
 mayo ganancia máx +3 a +7 M (9-10/10). Usan ~1.000-1.650 árboles (ref 538) → con juntar convienen más árboles.
 Candidatos para submit nuevo: trials 16, 18, 34, 15, 21, 36, 32 (`z028_revalidacion.csv`). **Pendiente: Keila decide** si se
 hace el submit 39-43 igual (cambiar la regla después de ver resultados) o queda el 38. ~4,5 min por modelo con 4 meses.
+**Keila decidió (11/10) hacer el submit igual → `submits/39-43_ens70juntarZ028_completo.ipynb`** (7 trials × 10 semillas del 32
+= 70 modelos, ~4,9 min c/u, ~5,7 h; lanzado 07:45, termina ~13:30). 39 = 12.000, 40 = 11.500, 41 = 11.000, 42 = 10.500,
+43 = 12.500. Al terminar: verificar CSV, reentrenar 1 modelo en proceso nuevo y comparar (`np.array_equal`), commit + push con salidas.
+Keila manda al bot y compara contra 32/38; si no convence, reenviar el 32 como último submit.
+**Entrega a la cátedra (consigna):** link a carpeta de GitHub con notebooks + instrucciones para replicar exacto la predicción final.
+Hecho: `submits/datos_crear_parquet.ipynb` (verificado idéntico), `submits/requirements.txt`, sección "Cómo replicar" en
+`submits/README.md` (falta completar cuál es el notebook final). Repo: https://github.com/keilazavaglia/DMEyF_ksz
 Windows (Control de aplicaciones) bloquea los .pyd de sqlalchemy → Optuna con SQLite falla. Se corrió con una copia de
 sqlalchemy sin .pyd en `PYTHONPATH` (alternativa permanente: renombrar los .pyd del .venv, con OK).
 
