@@ -1,5 +1,21 @@
 # Submits — Primera competencia (202108)
 
+## Cómo replicar la predicción final (para la cátedra)
+
+**Entrega final:** _(a definir el 11/10: `32_ens100juntar_12000_completo.ipynb` o `39-43_ens70juntarZ028_completo.ipynb`)_
+
+1. **Entorno:** Python 3.14.7 y los paquetes de `requirements.txt` (`pip install -r submits/requirements.txt`).
+   Versiones clave: lightgbm 4.7.0, pandas 3.0.6, numpy 2.5.3, pyarrow 25.0.1. Se corrió en Windows 11.
+2. **Datos:** copiar `competencia_01.csv` (el de la cátedra) en la carpeta raíz del repo (al lado de `submits/`).
+3. **Correr `submits/datos_crear_parquet.ipynb`** (~1 min): crea `competencia_01.parquet` (clase_ternaria estricta y
+   `ccajas_depositos` = NA en 202105). Verificado: idéntico al parquet usado en todos los submits.
+4. **Correr el notebook de la entrega final** desde la carpeta `submits/` (de principio a fin, sin parámetros).
+   Entrena todos los modelos, guarda cada predicción en su carpeta `probs_*/` (si se corta, al volver a correr retoma)
+   y escribe el CSV enviado. La última celda informa filas, únicos y coincidencia con otros submits.
+
+Los hiperparámetros y semillas están escritos en cada notebook. LightGBM se corrió con todos los núcleos (default);
+el submit 32 se reprodujo byte a byte en esta máquina.
+
 **Regla:** cada submit (o tanda de cortes) tiene su notebook con el número adelante. Los notebooks de esta
 carpeta **solo generan archivos para el bot**; lo experimental está en `0_exploracion/`.
 Un notebook ya enviado no se modifica: si cambia algo, se hace uno nuevo con el número siguiente.
