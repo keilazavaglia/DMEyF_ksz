@@ -159,10 +159,19 @@ Igual que el 32 + 54 variables nuevas (815). Un archivo por corte: **33 = 12.000
 empeora en N grandes (diferencias ±2 M, dentro del ruido). **Último enviado: 37 (98,95) → hoy es la entrega vigente: reenviar la elegida.**
 Comparación 32 vs 36: comparten 10.459 clientes (99,6% del 36); el 36 es casi el 32 recortado → la diferencia es el N, no las variables.
 **Seguro: reenviar `32_ens100juntar_12000.csv` sin cambios con título `38_ens100juntar_12000` (38 = copia del 32; código = notebook del 32).**
-(Pendiente: Keila confirma que lo mandó.) Recomendación de N: 12.000 (conservador); 11.500 si se le da peso al público
+(**Enviado el 10/10 → entrega vigente: 38.**) Recomendación de N: 12.000 (conservador); 11.500 si se le da peso al público
 (un N más chico le gana a 12.000 solo si p(agosto como mayo) > ~70%).
 
-### PRÓXIMO PASO (lanzar desde un chat nuevo): z028 Optuna con target juntar → submit nuevo
+### z028 HECHO (11/10, 02:03) — Optuna juntar con **5 semillas por trial** (cambio pedido por Keila; 5 h 20 min)
+**Regla: pasan 0/10** (falla solo la ganancia máx en junio: empate, la ref llega a su máximo en N ≈ 14.800).
+**Pero en N fijo ≈ 12.000 (el que se manda) ganan TODOS: junio +17,5 a +25,6 M en 10/10; mayo +1 a +7 M en 7-9/10**;
+mayo ganancia máx +3 a +7 M (9-10/10). Usan ~1.000-1.650 árboles (ref 538) → con juntar convienen más árboles.
+Candidatos para submit nuevo: trials 16, 18, 34, 15, 21, 36, 32 (`z028_revalidacion.csv`). **Pendiente: Keila decide** si se
+hace el submit 39-43 igual (cambiar la regla después de ver resultados) o queda el 38. ~4,5 min por modelo con 4 meses.
+Windows (Control de aplicaciones) bloquea los .pyd de sqlalchemy → Optuna con SQLite falla. Se corrió con una copia de
+sqlalchemy sin .pyd en `PYTHONPATH` (alternativa permanente: renombrar los .pyd del .venv, con OK).
+
+### (Plan original de z028, ya ejecutado)
 Los hiperparámetros del 32 (z005) se buscaron con **solo BAJA+2**; juntar se adoptó después sin volver a buscar.
 1. **Correr `0_exploracion/z028_optuna_juntar.ipynb`** (ya armado, sin correr; ~2 h 45 min) con nbclient desde `.venv`
    (cwd = `0_exploracion`, `timeout=None`; avance en `z028_progreso.txt`). Repite z005 tal cual (40 trials, semilla 501419,
