@@ -171,7 +171,10 @@ hace el submit 39-43 igual (cambiar la regla después de ver resultados) o queda
 **Keila decidió (11/10) hacer el submit igual → `submits/39-43_ens70juntarZ028_completo.ipynb`** (7 trials × 10 semillas del 32
 = 70 modelos, ~4,9 min c/u, ~5,7 h; lanzado 07:45, termina ~13:30). 39 = 12.000, 40 = 11.500, 41 = 11.000, 42 = 10.500,
 43 = 12.500. Al terminar: verificar CSV, reentrenar 1 modelo en proceso nuevo y comparar (`np.array_equal`), commit + push con salidas.
-Keila manda al bot y compara contra 32/38; si no convence, reenviar el 32 como último submit.
+**HECHO (14:25, 400 min).** CSV OK; reproducibilidad: trial 16 s501419 reentrenado en proceso nuevo = idéntico (dif 0,0).
+**Público (17:30): 42 (10.500) 103,62 · 41 (11.000) 104,80 · 40 (11.500) 104,61 · 39 (12.000) 104,69** → gana al juntar viejo
+en los 4 cortes (prom. 104,43 vs 102,42). 39 coincide 94,2% con el 32. Recomendación: entrega = 12.000 → reenviar el 39 como
+`44_ens70juntarZ028_12000` (último enviado hasta ahora: 42).
 **Entrega a la cátedra (consigna):** link a carpeta de GitHub con notebooks + instrucciones para replicar exacto la predicción final.
 Hecho: `submits/datos_crear_parquet.ipynb` (verificado idéntico), `submits/requirements.txt`, sección "Cómo replicar" en
 `submits/README.md` (falta completar cuál es el notebook final). Repo: https://github.com/keilazavaglia/DMEyF_ksz

@@ -34,3 +34,13 @@ Los CSV y las probabilidades (`probs_*/`, `*.parquet`) no se suben a GitHub.
 
 Cortes del 3 al 11 (público): 10.000 94,46 · 10.500 94,63 · 11.000 97,82 · 11.500 99,11 · 12.000 99,11 ·
 12.500 96,42 · 13.000 95,18 · 13.500 93,72 · 14.000 94,63.
+
+Submits 16-38: ver CLAUDE.md (sección Submits). Los dos candidatos a entrega final:
+
+| N° | Título en el bot | Notebook | Archivo | Modelo | Público |
+|---|---|---|---|---|---|
+| 32 / 38 | 32_ens100juntar_12000 / 38 (copia) | `32_ens100juntar_12000_completo` | `32_ens100juntar_12000.csv` | 10 trials z005 × 10 semillas, target juntar | 102,11 |
+| 39 | 39_ens70juntarZ028_12000 | `39-43_ens70juntarZ028_completo` | `39_ens70juntarZ028_12000.csv` | 7 trials z028 × 10 semillas, target juntar | **104,69** |
+| 40 | 40_ens70juntarZ028_11500 | ídem | `40_ens70juntarZ028_11500.csv` | ídem, top 11.500 | 104,61 |
+| 41 | 41_ens70juntarZ028_11000 | ídem | `41_ens70juntarZ028_11000.csv` | ídem, top 11.000 | 104,80 |
+| 42 | 42_ens70juntarZ028_10500 | ídem | `42_ens70juntarZ028_10500.csv` | ídem, top 10.500 | 103,62 |
