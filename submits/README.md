@@ -46,4 +46,4 @@ Submits 16-38: ver CLAUDE.md (sección Submits). Los dos candidatos a entrega fi
 | 40 | 40_ens70juntarZ028_11500 | ídem | `40_ens70juntarZ028_11500.csv` | ídem, top 11.500 | 104,61 |
 | 41 | 41_ens70juntarZ028_11000 | ídem | `41_ens70juntarZ028_11000.csv` | ídem, top 11.000 | 104,80 |
 | 42 | 42_ens70juntarZ028_10500 | ídem | `42_ens70juntarZ028_10500.csv` | ídem, top 10.500 | 103,62 |
-| **44** | **44_ens70juntarZ028_12000** | `44_ens70juntarZ028_12000_completo` | `44_ens70juntarZ028_12000.csv` | **copia exacta del 39 → ENTREGA FINAL** | 104,69 |
+| **44** | **44_ens70juntarZ028_12000_efinal** | `44_ens70juntarZ028_12000_completo` | `44_ens70juntarZ028_12000.csv` | **copia exacta del 39 → ENTREGA FINAL** | 104,69 |

@@ -17,3 +17,4 @@ __pycache__/
 *.npy
 submits/probs_*/
 !0_exploracion/z005_top10_final.csv
+CLAUDE.md
