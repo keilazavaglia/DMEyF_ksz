@@ -2,14 +2,16 @@
 
 ## Cómo replicar la predicción final (para la cátedra)
 
-**Entrega final:** _(a definir el 11/10: `32_ens100juntar_12000_completo.ipynb` o `39-43_ens70juntarZ028_completo.ipynb`)_
+**Entrega final: submit 44 → `submits/44_ens70juntarZ028_12000_completo.ipynb` genera `44_ens70juntarZ028_12000.csv`**
+(70 modelos LightGBM: 7 trials de z028 × 10 semillas, target BAJA+1 + BAJA+2, top 12.000; público 104,69).
 
 1. **Entorno:** Python 3.14.7 y los paquetes de `requirements.txt` (`pip install -r submits/requirements.txt`).
    Versiones clave: lightgbm 4.7.0, pandas 3.0.6, numpy 2.5.3, pyarrow 25.0.1. Se corrió en Windows 11.
 2. **Datos:** copiar `competencia_01.csv` (el de la cátedra) en la carpeta raíz del repo (al lado de `submits/`).
 3. **Correr `submits/datos_crear_parquet.ipynb`** (~1 min): crea `competencia_01.parquet` (clase_ternaria estricta y
    `ccajas_depositos` = NA en 202105). Verificado: idéntico al parquet usado en todos los submits.
-4. **Correr el notebook de la entrega final** desde la carpeta `submits/` (de principio a fin, sin parámetros).
+4. **Correr `submits/44_ens70juntarZ028_12000_completo.ipynb`** desde la carpeta `submits/` (de principio a fin,
+   sin parámetros; ~6,7 h desde cero).
    Entrena todos los modelos, guarda cada predicción en su carpeta `probs_*/` (si se corta, al volver a correr retoma)
    y escribe el CSV enviado. La última celda informa filas, únicos y coincidencia con otros submits.
 
@@ -44,3 +46,4 @@ Submits 16-38: ver CLAUDE.md (sección Submits). Los dos candidatos a entrega fi
 | 40 | 40_ens70juntarZ028_11500 | ídem | `40_ens70juntarZ028_11500.csv` | ídem, top 11.500 | 104,61 |
 | 41 | 41_ens70juntarZ028_11000 | ídem | `41_ens70juntarZ028_11000.csv` | ídem, top 11.000 | 104,80 |
 | 42 | 42_ens70juntarZ028_10500 | ídem | `42_ens70juntarZ028_10500.csv` | ídem, top 10.500 | 103,62 |
+| **44** | **44_ens70juntarZ028_12000** | `44_ens70juntarZ028_12000_completo` | `44_ens70juntarZ028_12000.csv` | **copia exacta del 39 → ENTREGA FINAL** | 104,69 |

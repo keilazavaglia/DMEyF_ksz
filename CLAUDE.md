@@ -173,8 +173,10 @@ hace el submit 39-43 igual (cambiar la regla después de ver resultados) o queda
 43 = 12.500. Al terminar: verificar CSV, reentrenar 1 modelo en proceso nuevo y comparar (`np.array_equal`), commit + push con salidas.
 **HECHO (14:25, 400 min).** CSV OK; reproducibilidad: trial 16 s501419 reentrenado en proceso nuevo = idéntico (dif 0,0).
 **Público (17:30): 42 (10.500) 103,62 · 41 (11.000) 104,80 · 40 (11.500) 104,61 · 39 (12.000) 104,69** → gana al juntar viejo
-en los 4 cortes (prom. 104,43 vs 102,42). 39 coincide 94,2% con el 32. Recomendación: entrega = 12.000 → reenviar el 39 como
-`44_ens70juntarZ028_12000` (último enviado hasta ahora: 42).
+en los 4 cortes (prom. 104,43 vs 102,42). 39 coincide 94,2% con el 32.
+**ENTREGA FINAL = 44_ens70juntarZ028_12000** (copia byte a byte del 39; Keila lo manda como último submit).
+Código: `submits/44_ens70juntarZ028_12000_completo.ipynb` (reusa las predicciones del 39 copiadas en `probs_44/`).
+README de submits con "Cómo replicar" apuntando al 44. Pendiente: repo privado → hacerlo público o sumar docentes; ¿sacar CLAUDE.md?
 **Entrega a la cátedra (consigna):** link a carpeta de GitHub con notebooks + instrucciones para replicar exacto la predicción final.
 Hecho: `submits/datos_crear_parquet.ipynb` (verificado idéntico), `submits/requirements.txt`, sección "Cómo replicar" en
 `submits/README.md` (falta completar cuál es el notebook final). Repo: https://github.com/keilazavaglia/DMEyF_ksz
