@@ -18,3 +18,9 @@ __pycache__/
 submits/probs_*/
 !0_exploracion/z005_top10_final.csv
 CLAUDE.md
+
+# Repo de GitHub de mi compañera (experimento undersampling): se actualiza con git pull, no va en este repo
+Experimentos/exp_j/repo_undersampling/
+
+# Token privado: nunca subirlo a GitHub (el repo es publico)
+token.txt
