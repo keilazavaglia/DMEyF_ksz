@@ -24,3 +24,5 @@ Experimentos/exp_j/repo_undersampling/
 
 # Token privado: nunca subirlo a GitHub (el repo es publico)
 token.txt
+# Mi rama undersampling_ksz (fork keilazavaglia/dmeyf2026): tiene su propio git, no va en este repo
+Experimentos/undersampling_ksz/
